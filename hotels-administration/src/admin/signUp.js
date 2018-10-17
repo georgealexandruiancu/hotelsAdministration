@@ -5,8 +5,7 @@ import fire from "./../config/Fire";
 class SignUpAdmin extends Component {
     constructor(props) {
         super(props);
-        this.handleChangeEmail = this.handleChangeEmail.bind(this);
-        this.handleChangePass = this.handleChangePass.bind(this);
+        this.handleChanges = this.handleChanges.bind(this);
         this.signup = this.signup.bind(this);
         this.state = {
             email: "",
@@ -37,13 +36,10 @@ class SignUpAdmin extends Component {
             console.log(err);
         })
     }
-
-    handleChangeEmail(e) {
-        this.setState({ email: e.target.value })
+    handleChanges(e) {
+        this.setState({ [e.target.name]: e.target.value })
     }
-    handleChangePass(e) {
-        this.setState({ password: e.target.value })
-    }
+   
     render() {
         return (
             <div>
@@ -58,11 +54,11 @@ class SignUpAdmin extends Component {
                     <div className="row">
                         <div className="col-md-6">
                             <p>Please insert the Email</p>
-                            <input type="email" placeholder="Email here.." name="email" style={{ width: 100 + "%" }} value={this.state.email} onChange={this.handleChangeEmail} ></input>
+                            <input type="email" placeholder="Email here.." name="email" style={{ width: 100 + "%" }} value={this.state.email} onChange={this.handleChanges} ></input>
                         </div>
                         <div className="col-md-6">
                             <p>Please insert the password</p>
-                            <input type="password" placeholder="Password here.." name="password" style={{ width: 100 + "%" }} value={this.state.password} onChange={this.handleChangePass} ></input>
+                            <input type="password" placeholder="Password here.." name="password" style={{ width: 100 + "%" }} value={this.state.password} onChange={this.handleChanges} ></input>
                         </div>
                     </div>
                     <div className="row">
