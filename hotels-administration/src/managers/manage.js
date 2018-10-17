@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './../managers/style.css';
 import fire from './../config/Fire'
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 class ManagerDashboard extends Component {
    constructor(props){
        super(props);
@@ -18,41 +18,42 @@ class ManagerDashboard extends Component {
        fire.auth().signOut();
        window.location = "/LogInManager";
    }
-   checkNavBar(){
-       var This = this
-       if(This.state.navBarOpen === true)
-       {
-
-       }else{
-
-       }   
+   const RouterPage = () =>{
+       <Router>
+           <div className="fancyNav" id="fancyNav">
+               <div className="user">
+                   MANGER1@test.com
+                    </div>
+               <div className="commnadList">
+                   <li>
+                       <Link to="/managerDashboard">
+                       <i class="fas fa-tachometer-alt iconsMenu"></i>
+                       <div className="textMenu">DASHBOARD</div>
+                       </Link>
+                   </li>
+                   <li>
+                       <Link to="/gestHotel">
+                       <i class="fas fa-chart-pie iconsMenu"></i>
+                       <div className="textMenu">GEST HOTEL</div>
+                       </Link>
+                   </li>
+                   <li>
+                       <Link to="/createHotel">
+                       <i class="fas fa-plus-square iconsMenu"></i>
+                       <div className="textMenu">CREATE HOTELS</div>
+                       </Link>
+                   </li>
+               </div>
+               <Route exact path="/managerDashboard" component={Manager} />
+               <Route path="/gestHotel" component={GestHotel} />
+               <Route path="/createHotel" component={CreateHotel} />
+           </div>
+       </Router>
    }
-
     render() {
         return (
             <div>
-                <div className="fancyNav" id="fancyNav">
-                    <div className="btnMenu" id="btnMenu" onClick={this.checkNavBar()}>
-                        <i class="fas fa-bars fa-2x"></i>
-                    </div>
-                    <div className="user">
-                        MANGER1@test.com
-                    </div>
-                    <div className="commnadList">
-                        <li>
-                            <i class="fas fa-tachometer-alt iconsMenu"></i> 
-                            <div className="textMenu">DASHBOARD</div>
-                        </li>
-                        <li>
-                            <i class="fas fa-chart-pie iconsMenu"></i> 
-                            <div className="textMenu">GEST HOTEL</div>
-                        </li>
-                        <li>
-                            <i class="fas fa-plus-square iconsMenu"></i> 
-                            <div className="textMenu">CREATE HOTELS</div>
-                        </li>
-                    </div>
-               </div>
+               
             </div>
         );
     }
