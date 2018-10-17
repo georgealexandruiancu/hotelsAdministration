@@ -1,0 +1,52 @@
+body, html{
+    padding: 0;
+    margin: 0;
+}
+.fancyNav{
+    width: 275px;
+    height: 100%;
+    background: #2A3F54;
+    position: fixed;
+    color: white;
+    overflow: hidden;
+}
+.fancyNav .user{
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(238, 238, 238, 0.452);
+}
+.fancyNav li{
+    list-style-type: none;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(238, 238, 238, 0.452);
+    position: relative;
+}
+.fancyNav li .iconsMenu{
+    position: absolute;
+    left: 10px;
+    top: 15px;
+}
+li .textMenu{
+    display: inline;
+}
+.fancyNav li:hover{
+    color: rgb(160, 160, 160);
+    cursor: pointer;
+}
+.fancyNav .btnMenu{
+    position: fixed;
+    top: 10px;
+    left: 20px;
+}
+.fancyNav.disable{
+    width: 75px;
+}
+.fancyNav.disable .user{
+    opacity: 0;
+}
+.fancyNav.disable .textMenu{
+    opacity: 0;
+}
