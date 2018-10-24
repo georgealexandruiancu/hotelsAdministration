@@ -1,2 +1,3 @@
 adminServer/keys/adminServer/keys
-hotels-administration/src/admin/hotels-administration/src/admin
+hotels-administration/src/admin
+adminServer/node_modules
