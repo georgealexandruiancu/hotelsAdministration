@@ -50,3 +50,31 @@ li .textMenu{
 .fancyNav.disable .textMenu{
     opacity: 0;
 }
+.listManagers{
+    display: block;
+    position: relative;
+    background: #dc3545;
+    margin: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+    color: white;
+    font-weight: 900;
+    transition: all 0.3s;
+    border-radius: 30px;
+}
+.listManagers .buttonsActions{
+    position: absolute;
+    right: 30px;
+    top: 10px;
+}
+.listManagers .fas {
+    padding-left: 30px;
+    opacity: 0;
+    transition: all 0.3s;
+}
+.listManagers:hover .fas{
+    opacity: 1;
+}
+.listManagers .fas:hover{
+    color: #007bff;
+    cursor: pointer;
+}

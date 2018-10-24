@@ -14,6 +14,7 @@ export default () =>
 (
     <BrowserRouter>
         <div>
+            <Route exact path="/" component={LogInAdmin} />
             <Route path="/LogInAdmin" component={LogInAdmin}></Route>
             <Route path="/SignUpAdmin" component={SignUpAdmin}></Route>
             <Route path="/ManagerAdmin" component={ManagerAdmin}></Route>
