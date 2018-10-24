@@ -1,0 +1,32 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+    <center>
+        <h1>Admin Dashboard</h1>
+    </center>
+    <h3>Create Managers</h3>
+    <input type="text" id="email" /> <br>
+    <input type="password" id="pass" /><br>
+    <input type="text" id="name" /><br>
+
+    <button onclick="makemoves()">Create manager</button>
+    <script>
+    function makemoves(){
+        var email = document.getElementById("email");
+        var pass = document.getElementById("pass");
+        var name = document.getElementById("name");
+        console.log(email.value);
+        console.log(typeof email.value);
+        window.location = `http://localhost:4040/create/`+email.value+`/`+pass.value+`/`+name.value
+    }
+    </script>
+</body>
+
+</html>

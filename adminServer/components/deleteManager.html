@@ -1,0 +1,87 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Admin Dashboard</title>
+</head>
+    <style>
+        .pannel{
+            margin-top: 50px;
+        }
+        .manager-group{
+            background: #dc3545;
+            border-radius: 25px;
+            top: 20px;
+            padding: 20px 20px 20px 20px;
+            display: inline;
+            color: white;
+        }
+        .manager-group .email{
+            display: inline;
+        } 
+    </style>
+<body>
+    <center>
+        <h1>Admin Dashboard</h1>
+    </center>
+    <h3>Delete Managers</h3>
+   
+        <div id="managers">
+            <!-- <div class="pannel">
+                <div class="manager-group">
+                    <div class="email">asdasdasdasdasd</div>
+                    <button> Delete this</button>
+                </div>
+            </div> -->
+        </div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyD2RLUneKWZPYntqaD5ZpWIH1uUTD65lBQ",
+            authDomain: "hotelsadministration.firebaseapp.com",
+            databaseURL: "https://hotelsadministration.firebaseio.com",
+            projectId: "hotelsadministration",
+            storageBucket: "hotelsadministration.appspot.com",
+            messagingSenderId: "131342378954"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        var database = firebase.database();
+        database.ref('/managers/').once('value').then(function (snapshot) {
+            console.log(snapshot.val());
+            var managers = document.getElementById("managers");
+            var data = _.values(snapshot.val());
+            console.log(data);
+            for(var i=0;i<data.length;i++){
+                uid = data[i].uid.toString();
+                console.log(typeof uid);
+                console.log(uid);
+                managers.insertAdjacentHTML('beforeend',
+                   `<div class="pannel">
+                        <div class="manager-group">
+                            <div class="email">`+data[i].email+`</div>
+                            <button onclick="handleDelete(\'`+uid+`\')">Delete this</button>
+                        </div>
+                    </div>`
+                )
+            }
+        });
+        function handleDelete(uid){
+                var ref = firebase.database().ref('/managers');
+                ref.orderByChild('uid').equalTo(uid).on('value', (snapshot) => {
+                    window.location = `http://localhost:4040/delete/` + uid + `/`;                    
+                    snapshot.ref.remove()
+                }).then(() => {
+                    // window.location = `http://localhost:4040/delete/` + uid + `/`;
+                })
+        }
+    </script>
+</body>
+
+</html>
