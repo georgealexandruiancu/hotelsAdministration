@@ -42,18 +42,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyD2RLUneKWZPYntqaD5ZpWIH1uUTD65lBQ",
-            authDomain: "hotelsadministration.firebaseapp.com",
-            databaseURL: "https://hotelsadministration.firebaseio.com",
-            projectId: "hotelsadministration",
-            storageBucket: "hotelsadministration.appspot.com",
-            messagingSenderId: "131342378954"
-        };
-        firebase.initializeApp(config);
-    </script>
+    <script src="../keys/clientKey.js"></script>
     <script>
         var database = firebase.database();
         database.ref('/managers/').once('value').then(function (snapshot) {
@@ -70,21 +59,27 @@
                 managers.insertAdjacentHTML('beforeend',
                     `<div class="pannel">
                         <div class="manager-group">
-                            <div class="email">Current manager: `+ data[i].email + `</div>
+                            <div class="email">Current manager: `+ data[i].email + `</div> 
+                            <input type="text" value="`+data[i].email+`" id="email"/>
+                            <input type="password" placeholder="Enter a new password" id="pass1"/>
+                            <input type="password" placeholder="Confirm password" id="pass2"/>
+                            <input type="text" placeholder="Enter a new name" id="name"/>
                             <button onclick="handleUpdate(\'`+ uid + `\')">Update this</button>
                         </div>
                     </div>`
                 )
             }
         });
-        function handleDelete(uid) {
-            var ref = firebase.database().ref('/managers');
-            ref.orderByChild('uid').equalTo(uid).on('value', (snapshot) => {
-                window.location = `http://localhost:4040/delete/` + uid + `/`;
-                snapshot.ref.remove()
-            }).then(() => {
-                // window.location = `http://localhost:4040/delete/` + uid + `/`;
-            })
+        function handleUpdate(uid){
+            alert(uid);
+            var email = document.getElementById("email").value;
+            var pass1 = document.getElementById("pass1").value;
+            var pass2 = document.getElementById("pass2").value;
+            var name = document.getElementById("name").value;
+
+            if(pass1 === pass2){
+                 window.location = `http://localhost:4040/update/`+uid+`/`+email+`/`+pass2+`/`+name+`/`;
+            }
         }
     </script>
 </body>

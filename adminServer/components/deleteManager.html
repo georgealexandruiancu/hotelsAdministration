@@ -39,18 +39,7 @@
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.5/firebase.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyD2RLUneKWZPYntqaD5ZpWIH1uUTD65lBQ",
-            authDomain: "hotelsadministration.firebaseapp.com",
-            databaseURL: "https://hotelsadministration.firebaseio.com",
-            projectId: "hotelsadministration",
-            storageBucket: "hotelsadministration.appspot.com",
-            messagingSenderId: "131342378954"
-        };
-        firebase.initializeApp(config);
-    </script>
+    <script src="../keys/clientKey.js"></script>   
     <script>
         var database = firebase.database();
         database.ref('/managers/').once('value').then(function (snapshot) {
