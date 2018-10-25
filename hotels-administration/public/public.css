@@ -9,6 +9,7 @@ body, html{
     position: fixed;
     color: white;
     overflow: hidden;
+    z-index: 100;
 }
 .fancyNav .user{
     text-align: center;
@@ -77,4 +78,29 @@ li .textMenu{
 .listManagers .fas:hover{
     color: #007bff;
     cursor: pointer;
+}
+.holder-page{
+    width: 100%;
+    height: 100%;
+    padding-left: 300px;
+    position: relative;
+}
+.holder-page h5{
+    padding-top: 50px;
+}
+.inputs-holder{
+    padding-top: 55px;
+}
+.allInputs{
+    width: 250px;
+    margin-top: 15px;
+}
+.roomContainer{
+    width: 450px;
+    height: 450px;
+    padding: 10px 10px 10px 10px;
+}
+.roomContainer h5{
+    padding: none;
+    margin: none;
 }

@@ -10,6 +10,8 @@ class ManagerDashboard extends Component {
             navBarOpen: true
         }
         this.checkConnection = this.checkConnection.bind(this);
+        this.createHotel = this.createHotel.bind(this);
+
     }
     componentWillMount(){
             this.checkConnection();
@@ -28,6 +30,9 @@ class ManagerDashboard extends Component {
         fire.auth().signOut();
         window.location = "/LogInManager";
     }
+    createHotel(){
+        window.location = "/CreateHotel";
+    }
     render() {
         return (
             <div>
@@ -44,7 +49,7 @@ class ManagerDashboard extends Component {
                                 <i class="fas fa-chart-pie iconsMenu"></i>
                                 <div className="textMenu">GEST HOTEL</div>
                         </li>
-                        <li>
+                        <li onClick={this.createHotel}>
                                 <i class="fas fa-plus-square iconsMenu"></i>
                                 <div className="textMenu">CREATE HOTELS</div>
                         </li>
