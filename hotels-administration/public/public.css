@@ -96,11 +96,13 @@ li .textMenu{
     margin-top: 15px;
 }
 .roomContainer{
-    width: 450px;
-    height: 450px;
+    width: 350px;
+    height: 250px;
     padding: 10px 10px 10px 10px;
-}
-.roomContainer h5{
-    padding: none;
-    margin: none;
+    background: #007bff;
+    border-radius: 25px;
+    padding-top: none;
+    color: white;
+    float: left;
+    margin: 10px;
 }
