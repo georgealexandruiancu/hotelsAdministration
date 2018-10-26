@@ -7,7 +7,6 @@ class CreateHotel extends Component {
         super(props);
         this.logout = this.logout.bind(this);
         this.state = {
-            activeManager: "",
             navBarOpen: true,
             rooms: 1,
             finishFunction: false,
@@ -15,7 +14,7 @@ class CreateHotel extends Component {
             currentImageHotel: "",
             currentImageRoom: ""
         }
-        // this.checkConnection = this.checkConnection.bind(this);
+        this.checkConnection = this.checkConnection.bind(this);
         this.appendRooms = this.appendRooms.bind(this);
         this.containerRooms = this.containerRooms.bind(this);
         this.saveRoom = this.saveRoom.bind(this);
@@ -24,10 +23,9 @@ class CreateHotel extends Component {
         this.checkConnection();
     }
     checkConnection() {
-        var This = this;
         fire.auth().onAuthStateChanged(function (user) {
             if (user) {
-                This.setState({activeManager: user.email});
+                // User is signed in.
             } else {
                 alert("You must be logged in");
                 window.location = "/LogInManager";
@@ -53,7 +51,7 @@ class CreateHotel extends Component {
        var roomFaci = document.getElementById("roomfaci/"+key).value;
        var roomPrice = document.getElementById("roomprice/" + key).value;
         var roomImage = document.getElementById("roomimage/"+key).files[0];
-        const name = this.state.hotelCurrentCreated + "/" + key;
+        const name = this.state.hotelCurrentCreated;
         const ref = fire.storage().ref("/rooms");
         const metadata = { contentType: roomImage.type };
         const task = ref.child(name).put(roomImage, metadata);
@@ -120,8 +118,7 @@ class CreateHotel extends Component {
                     image: this.state.currentImageHotel,
                     stars: starsHotel,
                     location: locationHotel,
-                    contact: contactHotel,
-                    manager: this.state.activeManager
+                    contact: contactHotel
                 });
             }).then(() => {
                 for(var i=0;i<this.state.rooms;i++){
@@ -136,10 +133,10 @@ class CreateHotel extends Component {
                 <div className="holder-page">
                     <center>
                         <h5>
-                            Create an hotel
+                            Modify an hotel
                         </h5>
                     </center>
-                    <div className="inputs-holder">
+                    {/* <div className="inputs-holder">
                         <input type="text" placeholder="Title of hotel.." className="allInputs" id="titleHotel"/><br />
                         <textarea className="allInputs" placeholder="Description of hotel.." id="descHotel">
                         </textarea><br />
@@ -154,6 +151,7 @@ class CreateHotel extends Component {
                         </div>
                         <button onClick={this.publishHotel.bind(this)} className="allInputs">PUBLISH THE HOTEL</button>
                     </div>
+                </div> */}
                 </div>
             </div>
         );
