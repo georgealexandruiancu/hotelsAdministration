@@ -95,9 +95,16 @@ li .textMenu{
     width: 250px;
     margin-top: 15px;
 }
+.textareaEdit{
+    height: 300px;
+}
+.hotelDetails img{
+    width: 400px;
+    height: auto;
+}
 .roomContainer{
     width: 350px;
-    height: 250px;
+    
     padding: 10px 10px 10px 10px;
     background: #007bff;
     border-radius: 25px;
@@ -105,4 +112,14 @@ li .textMenu{
     color: white;
     float: left;
     margin: 10px;
+}
+#containerRooms{
+    position: relative;
+    display: block;
+}
+.roomContainer img{
+    width: 100%;
+}
+.dispBlock{
+    display: block;
 }

@@ -58,20 +58,26 @@ class GestHotel extends Component {
         }
     }
     getRooms() {
-        var temp = 0;
         if (this.state.hotels != "") {
             var rooms = {};
-            for (let i = 0; i < this.state.hotels.titles.length; i++) {
+            
+            for (var i = 0; i < this.state.hotels.titles.length; i++) {
                 var title = this.state.hotels.titles[i];
-                rooms[title] = null;
-            }
-            for (let i = 0; i < Object.keys(rooms).length; i++) {
-                console.log(title, i)
+                 rooms[title] = null;
+                // rooms.push(x)
+
+                console.log(title,i)
                 fire.database().ref("/rooms/").child(this.state.hotels.titles[i]).once('value', (snapshot) => {
                     console.log(snapshot.val());
-                  
-                    rooms[Object.keys(rooms)[i]] = snapshot.val();
-                    this.setState({ rooms });
+                    // rooms[title] = snapshot.val();
+                    rooms[title] = i;
+                    this.setState({ rooms })
+
+                    // rooms.push(title[snapshot.val()])
+
+                    // this.setState({
+                    //     rooms: [...this.state.rooms, title]
+                    // });
                     console.log(this.state);
                 });
             }
@@ -92,24 +98,24 @@ class GestHotel extends Component {
     getHotelTitle() {
         var e = document.getElementById("selectHotel");
         var hotel = e.options[e.selectedIndex].value;
-        if (hotel !== "selectanhotel") {
+        if(hotel !== "selectanhotel"){
             var This = this;
             This.setState({ hotelChange: true, activeHotel: hotel })
-        } else {
+        }else{
             var This = this;
             This.setState({ hotelChange: false, activeHotel: "" })
         }
         // this.pushHotelData(hotel);
     }
     pushHotelData() {
-        if (this.state.hotelChange === true) {
+        if(this.state.hotelChange === true){
             var hotels = this.state.hotels;
             console.log(hotels.data[this.state.activeHotel]);
             let table = [];
             table.push(
                 <div>
-                    <label>Name:</label>
-                    <input value={hotels.data[this.state.activeHotel].title} className="allInputs" /><br />
+                    <label>Name:</label> 
+                    <input value={hotels.data[this.state.activeHotel].title} className="allInputs"/><br/>
                     <label>Description:</label>
                     <textarea value={hotels.data[this.state.activeHotel].description} className="allInputs textareaEdit" /><br />
                     <label>Location:</label>
@@ -124,41 +130,11 @@ class GestHotel extends Component {
             return table;
         }
     }
-    showBtn(){
-        if(this.state.hotelChange === true){
-            return(
-                <div>
-                     <br/><button className="dispBlock">Update hotel</button>
-                </div>
-            )
-        }
-    }
-    containerRooms() {
+    containerRooms(){
         let table = [];
-        if (this.state.hotelChange === true) {
-           
+        if(this.state.hotelChange === true){
+            console.log(this.state);
             // var rooms = _.values(this.state.rooms)
-            var rooms = this.state.rooms[this.state.activeHotel];
-            for(let i=0;i<rooms.length;i++){
-                table.push(
-                    <div className="roomContainer">
-                        <h6>Room number: {i} </h6>
-                        <label>Name:</label>
-                        <input type="text" value={rooms[i].name} id={"roomname/" + i} /><br />
-                        <label>Description:</label>
-                        <textarea type="text" value={rooms[i].description} id={"roomdesc/" + i} className="textareaEdit"></textarea><br />
-                        <label>Facilities:</label>                        
-                        <input type="text" value={rooms[i].facilities} id={"roomfaci/" + i} /><br />
-                        <label>Price:</label>                        
-                        <input type="text" value={rooms[i].price} id={"roomprice/" + i} /><br />
-                        <img src={rooms[i].image} />
-                        <label > Select another image for room </label>
-                        <input type="file" placeholder="Room Image.." id={"roomimage/" + i} /><br />
-                        {/* <button onClick={this.saveRoom.bind(this, i)}>Save Room</button> */}
-                    </div>
-                )
-            }
-            return table;
         }
     }
     render() {
@@ -171,7 +147,7 @@ class GestHotel extends Component {
                             Modify an hotel
                         </h5>
                     </center>
-                    SELECT THE HOTEL:
+                    SELECT THE HOTEL: 
                     <select onChange={this.getHotelTitle.bind(this)} id="selectHotel">
                         <option value="selectanhotel">SELECT AN HOTEL</option>
                         {this.showHotels()}
@@ -181,13 +157,6 @@ class GestHotel extends Component {
                     </div>
                     <div id="containerRooms">
                         {this.containerRooms()}
-                    </div>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-md-12">
-                                {this.showBtn()}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
