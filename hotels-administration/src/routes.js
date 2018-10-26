@@ -11,14 +11,11 @@ export default () =>
 (
     <BrowserRouter>
         <div>
-
             <Route exact path="/" component={LogInManager} />
             <Route path="/LogInManager" component={LogInManager}></Route>
             <Route path="/ManagerDashboard" component={ManagerDashboard}></Route>
             <Route path="/CreateHotel" component={CreateHotel}></Route>
             <Route path="/GestHotel" component={GestHotel}></Route>
-
-
         </div>
     </BrowserRouter>
 )

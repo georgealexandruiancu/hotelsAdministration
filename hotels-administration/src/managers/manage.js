@@ -38,7 +38,7 @@ class ManagerDashboard extends Component {
         window.location = "/CreateHotel";
     }
     gestHotel(){
-        window.location = '/GestHotels';
+        window.location = '/GestHotel';
     }
     render() {
         return (

@@ -2,30 +2,35 @@ import React, { Component } from 'react';
 import './../managers/style.css';
 import fire from './../config/Fire'
 import Navigation from "./manage";
-class CreateHotel extends Component {
+class GestHotel extends Component {
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);
         this.state = {
             navBarOpen: true,
-            rooms: 1,
-            finishFunction: false,
-            hotelCurrentCreated: "",
-            currentImageHotel: "",
-            currentImageRoom: ""
+            activeManager: false,
+            activeHotel: "",
+            manager: "",
+            hotels: "",
+            rooms: "",
+            finishFetch: false,
+            hotelChange: false,
         }
+        this.getHotels = this.getHotels.bind(this);
         this.checkConnection = this.checkConnection.bind(this);
-        this.appendRooms = this.appendRooms.bind(this);
-        this.containerRooms = this.containerRooms.bind(this);
-        this.saveRoom = this.saveRoom.bind(this);
+        this.showHotels = this.showHotels.bind(this);
+        this.pushHotelData = this.pushHotelData.bind(this);
     }
     componentWillMount() {
         this.checkConnection();
     }
+
     checkConnection() {
+        var This = this;
         fire.auth().onAuthStateChanged(function (user) {
             if (user) {
-                // User is signed in.
+                This.setState({ manager: user.email, activeManager: true }, () => { This.getHotels() });
+                console.log(This.state);
             } else {
                 alert("You must be logged in");
                 window.location = "/LogInManager";
@@ -36,95 +41,76 @@ class CreateHotel extends Component {
         fire.auth().signOut();
         window.location = "/LogInManager";
     }
-    appendRooms() {
-        var rooms = document.getElementById("noRooms").value
-        this.setState({
-            finishFunction: true,
-            rooms: rooms
-        });       
-    }
+    getHotels() {
+        if (this.state.activeManager != false) {
+            fire.database().ref("/hotels/").orderByChild('manager').equalTo(this.state.manager).on('value', (snapshot) => {
+                this.setState({
+                    hotels:
+                    {
+                        data: snapshot.val(),
+                        titles: Object.keys(snapshot.val())
+                    }
+                }, () => { this.getRooms() });
+                console.log(this.state.hotels);
 
-    saveRoom(key) {
-
-       var roomName = document.getElementById("roomname/"+key).value;
-       var roomDesc = document.getElementById("roomdesc/"+key).value;
-       var roomFaci = document.getElementById("roomfaci/"+key).value;
-       var roomPrice = document.getElementById("roomprice/" + key).value;
-        var roomImage = document.getElementById("roomimage/"+key).files[0];
-        const name = this.state.hotelCurrentCreated;
-        const ref = fire.storage().ref("/rooms");
-        const metadata = { contentType: roomImage.type };
-        const task = ref.child(name).put(roomImage, metadata);
-        task
-            .then(snapshot => snapshot.ref.getDownloadURL())
-            .then((url) => {
-                console.log(url);
-                this.setState({ currentImageRoom: url })
-
-            }).then(() => {
-                fire.database().ref('rooms/' + this.state.hotelCurrentCreated + "/" + key).set({
-                    name: roomName,
-                    description: roomDesc,
-                    facilities: roomFaci,
-                    price: roomPrice,
-                    image: this.state.currentImageRoom
-                });
-            })
-    }
-    containerRooms() {
-        let table = [];
-        if (this.state.finishFunction === true) {
-            for (var i = 0; i < this.state.rooms; i++) {
-                table.push(
-                    <div className="roomContainer">
-                        <h6>Room number: {i} </h6>
-                        <input type="text" placeholder="Room Name.." id={"roomname/" + i}/><br />
-                        <input type="text" placeholder="Room Description.." id={"roomdesc/" + i}/><br />
-                        <input type="text" placeholder="Room Facilities.." id={"roomfaci/" + i}/><br />
-                        <label > Select an image for room </label>
-                        <input type="file" placeholder="Room Image.." id={"roomimage/" + i}/><br />
-                        <input type="text" placeholder="Price per night.." id={"roomprice/" + i} /><br />
-
-                        <button onClick={this.saveRoom.bind(this, i)}>Save Room</button>
-                    </div>
-                )
-            }
-            return table;
+            });
         }
     }
-    publishHotel(){
-        alert("se salveaza");
-        var titleHotel = document.getElementById("titleHotel").value;
-        var descHotel = document.getElementById("descHotel").value;
-        var imageHotel = document.getElementById("imageHotel").files[0];
-        var starsHotel = document.getElementById("starsHotel").value;
-        var locationHotel = document.getElementById("locationHotel").value;
-        var contactHotel = document.getElementById("contactHotel").value;
-        this.setState({hotelCurrentCreated: titleHotel});
-        const name = titleHotel;
-        const ref = fire.storage().ref("/hotels");
-        const metadata = { contentType: imageHotel.type };
-        const task = ref.child(name).put(imageHotel, metadata);
-        task
-            .then(snapshot => snapshot.ref.getDownloadURL())
-            .then((url) => {
-                console.log(url);
-                this.setState({currentImageHotel: url})
-              
-            }).then(() => {
-                fire.database().ref('hotels/' + titleHotel).set({
-                    title: titleHotel,
-                    description: descHotel,
-                    image: this.state.currentImageHotel,
-                    stars: starsHotel,
-                    location: locationHotel,
-                    contact: contactHotel
+    getRooms() {
+        if (this.state.hotels != "") {
+            for (var i = 0; i < this.state.hotels.titles.length; i++) {
+                fire.database().ref("/rooms/").child(this.state.hotels.titles[i]).on('value', (snapshot) => {
+                    this.setState({
+                        rooms:
+                        {
+                            data: snapshot.val(),
+                        }
+                    });
                 });
-            }).then(() => {
-                for(var i=0;i<this.state.rooms;i++){
-                    this.saveRoom(i);
-                }
-            })
+            }
+            this.setState({ finishFetch: true }, () => { this.showHotels() });
+        }
+    }
+    showHotels() {
+        let table = [];
+        if (this.state.finishFetch === true) {
+            for (var i = 0; i < this.state.hotels.titles.length; i++) {
+                table.push(
+                    <option value={this.state.hotels.titles[i]}>{this.state.hotels.titles[i]}</option>
+                )
+            }
+        }
+        return table;
+    }
+    getHotelTitle() {
+        var e = document.getElementById("selectHotel");
+        var hotel = e.options[e.selectedIndex].value;
+        if(hotel !== "selectanhotel"){
+            var This = this;
+            This.setState({ hotelChange: true, activeHotel: hotel })
+        }else{
+            var This = this;
+            This.setState({ hotelChange: false, activeHotel: "" })
+        }
+        // this.pushHotelData(hotel);
+    }
+    pushHotelData() {
+        if(this.state.hotelChange === true){
+            var hotels = this.state.hotels;
+            console.log(hotels.data[this.state.activeHotel]);
+            let table = [];
+            table.push(
+                <div>
+                    <h6>Name: {hotels.data[this.state.activeHotel].title}</h6>
+                    <h6>Description: {hotels.data[this.state.activeHotel].description}</h6>
+                    <h6>Location: {hotels.data[this.state.activeHotel].location}</h6>
+                    <h6>Manager: {hotels.data[this.state.activeHotel].manager}</h6>
+                    <h6>Stars: {hotels.data[this.state.activeHotel].stars}</h6>
+                    <img src={hotels.data[this.state.activeHotel].image} />
+                </div>
+            );
+            return table;
+        }
     }
     render() {
         return (
@@ -136,27 +122,20 @@ class CreateHotel extends Component {
                             Modify an hotel
                         </h5>
                     </center>
-                    {/* <div className="inputs-holder">
-                        <input type="text" placeholder="Title of hotel.." className="allInputs" id="titleHotel"/><br />
-                        <textarea className="allInputs" placeholder="Description of hotel.." id="descHotel">
-                        </textarea><br />
-                        <input type="file" placeholder="Hotel Image.." className="allInputs" id="imageHotel"/><br />
-                        <input type="text" placeholder="Stars(1->5).." className="allInputs" id="starsHotel"/><br />
-                        <input type="text" placeholder="Location of hotel.." className="allInputs" id="locationHotel"/><br />
-                        <input type="text" placeholder="Contact of hotel.." className="allInputs" id="contactHotel"/><br />
-                        <label className="allInputs">Number of rooms: (integer number)</label><br></br>
-                        <input type="text" placeholder="Number of rooms.." className="allInputs" id="noRooms" /><button onClick={this.appendRooms}>Make details for rooms</button><br></br>
-                        <div id="containerRooms">
-                            {this.containerRooms()}
-                        </div>
-                        <button onClick={this.publishHotel.bind(this)} className="allInputs">PUBLISH THE HOTEL</button>
+                    SELECT THE HOTEL: 
+                    <select onChange={this.getHotelTitle.bind(this)} id="selectHotel">
+                        <option value="selectanhotel">SELECT AN HOTEL</option>
+                        {this.showHotels()}
+                    </select>
+                    <div className="hotelDetails">
+                        {this.pushHotelData()}
                     </div>
-                </div> */}
                 </div>
             </div>
+
         );
     }
 
 }
 
-export default CreateHotel;
+export default GestHotel;
