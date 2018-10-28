@@ -48,10 +48,10 @@ class CreateHotel extends Component {
 
     saveRoom(key) {
 
-       var roomName = document.getElementById("roomname/"+key).value;
-       var roomDesc = document.getElementById("roomdesc/"+key).value;
-       var roomFaci = document.getElementById("roomfaci/"+key).value;
-       var roomPrice = document.getElementById("roomprice/" + key).value;
+        var roomName = document.getElementById("roomname/"+key).value;
+        var roomDesc = document.getElementById("roomdesc/"+key).value;
+        var roomFaci = document.getElementById("roomfaci/"+key).value;
+        var roomPrice = document.getElementById("roomprice/" + key).value;
         var roomImage = document.getElementById("roomimage/"+key).files[0];
         const name = this.state.hotelCurrentCreated + "/" + key;
         const ref = fire.storage().ref("/rooms");

@@ -21,6 +21,8 @@ class GestHotel extends Component {
         this.checkConnection = this.checkConnection.bind(this);
         this.showHotels = this.showHotels.bind(this);
         this.pushHotelData = this.pushHotelData.bind(this);
+        this.saveRooms = this.saveRooms.bind(this);
+
     }
     componentWillMount() {
         this.checkConnection();
@@ -58,7 +60,7 @@ class GestHotel extends Component {
         }
     }
     getRooms() {
-        var temp = 0;
+
         if (this.state.hotels != "") {
             var rooms = {};
             for (let i = 0; i < this.state.hotels.titles.length; i++) {
@@ -102,40 +104,150 @@ class GestHotel extends Component {
         // this.pushHotelData(hotel);
     }
     pushHotelData() {
+        // this.preventDefault();
         if (this.state.hotelChange === true) {
+            var convertedActiveHotel = _.snakeCase(this.state.activeHotel);
             var hotels = this.state.hotels;
             console.log(hotels.data[this.state.activeHotel]);
             let table = [];
             table.push(
                 <div>
                     <label>Name:</label>
-                    <input value={hotels.data[this.state.activeHotel].title} className="allInputs" /><br />
+                    <h2>{hotels.data[this.state.activeHotel].title}</h2>
                     <label>Description:</label>
-                    <textarea value={hotels.data[this.state.activeHotel].description} className="allInputs textareaEdit" /><br />
+                    <textarea id={"descHotel/" + convertedActiveHotel} placeholder={hotels.data[this.state.activeHotel].description} className="allInputs textareaEdit" /><br />
                     <label>Location:</label>
-                    <input value={hotels.data[this.state.activeHotel].location} className="allInputs" /><br />
+                    <input id={"locationHotel/" + convertedActiveHotel} placeholder={hotels.data[this.state.activeHotel].location} className="allInputs" /><br />
                     <label>Manager: </label>
-                    <input value={hotels.data[this.state.activeHotel].manager} className="allInputs" /><br />
+                    <input id={"managerHotel/" + convertedActiveHotel} placeholder={hotels.data[this.state.activeHotel].manager} className="allInputs" /><br />
                     <label>Stars: </label>
-                    <input value={hotels.data[this.state.activeHotel].stars} className="allInputs" /><br />
+                    <input id={"starsHotel/" + convertedActiveHotel} placeholder={hotels.data[this.state.activeHotel].stars} className="allInputs" /><br />
+                    <label>Contact: </label>
+                    <input id={"contactHotel/" + convertedActiveHotel} placeholder={hotels.data[this.state.activeHotel].contact} className="allInputs" /><br />
                     <img src={hotels.data[this.state.activeHotel].image} />
+                    <label > Select another image for HOTEL </label>
+                    <input type="file" placeholder="Hotel Image.." id={"imgHotel/" + convertedActiveHotel} /><br />
                 </div>
             );
             return table;
         }
     }
-    showBtn(){
+    showBtn(value){
         if(this.state.hotelChange === true){
+            var roomImageCopy = this.state.rooms[this.state.activeHotel];
+            console.log(roomImageCopy[1].image);
+            console.log(this.state.activeHotel);
             return(
                 <div>
-                     <br/><button className="dispBlock">Update hotel</button>
+                     <br/><button onClick={this.updateChanges.bind(this)} className="dispBlock">Update hotel</button>
                 </div>
             )
+           
+        }
+      
+    }
+    updateChanges(e){
+        e.preventDefault();
+        alert("se salveaza");
+        if(this.state.hotelChange === true){
+            var convertedActiveHotel = _.snakeCase(this.state.activeHotel);
+            var titleHotel = this.state.activeHotel;
+            var descHotel = document.getElementById('descHotel/' + convertedActiveHotel).value;
+            var imageHotel = document.getElementById('imgHotel/' + convertedActiveHotel).files[0];
+            var starsHotel = document.getElementById('starsHotel/' + convertedActiveHotel).value;
+            var locationHotel = document.getElementById('locationHotel/' + convertedActiveHotel).value;
+            var contactHotel = document.getElementById('contactHotel/' + convertedActiveHotel).value;
+            var imageHotelCopy = this.state.hotels.data[this.state.activeHotel].image;
+            console.log(imageHotelCopy);
+            if(imageHotel){
+                alert("A intrat pe hotel")
+
+                const name = titleHotel;
+                const ref = fire.storage().ref("/hotels");
+                const metadata = {contentType: imageHotel.type};
+                const task = ref.child(name).put(imageHotel,metadata);
+                task
+                    .then(snapshot => snapshot.ref.getDownloadURL())
+                    .then((url) => {
+                        console.log(url);
+                        this.setState({ currentImageHotel: url })
+
+                    }).then(() => {
+                        fire.database().ref('hotels/' + titleHotel).set({
+                            title: titleHotel,
+                            description: descHotel,
+                            image: this.state.currentImageHotel,
+                            stars: starsHotel,
+                            location: locationHotel,
+                            contact: contactHotel,
+                            manager: this.state.manager
+                        });
+                    }).then(() => {
+                        let rooms = this.state.rooms[this.state.activeHotel];
+                        for(let i=0;i<rooms.length;i++){
+                            this.saveRooms(i);
+                        }                        
+                    })
+            }else{
+                fire.database().ref('hotels/' + titleHotel).set({
+                    title: titleHotel,
+                    description: descHotel,
+                    stars: starsHotel,
+                    location: locationHotel,
+                    contact: contactHotel,
+                    manager: this.state.manager,
+                    image: imageHotelCopy
+                });
+                let rooms = this.state.rooms[this.state.activeHotel];
+                for (let i = 0; i < rooms.length; i++) {
+                    this.saveRooms(i);
+                }
+            }
+        }
+    }
+    saveRooms(key) {
+
+        var roomName = document.getElementById("roomname/" + key).value;
+        var roomDesc = document.getElementById("roomdesc/" + key).value;
+        var roomFaci = document.getElementById("roomfaci/" + key).value;
+        var roomPrice = document.getElementById("roomprice/" + key).value;
+        var roomImage = document.getElementById("roomimage/" + key).files[0];
+        var copy = this.state.rooms[this.state.activeHotel];
+        var roomImageCopy = copy[key].image
+        if (roomImage) {
+            alert("A intrat pe room")
+            const name = this.state.activeHotel + "/" + key;
+            const ref = fire.storage().ref("/rooms");
+            const metadata = { contentType: roomImage.type };
+            const task = ref.child(name).put(roomImage, metadata);
+            task
+                .then(snapshot => snapshot.ref.getDownloadURL())
+                .then((url) => {
+                    console.log(url);
+                    this.setState({ currentImageRoom: url })
+
+                }).then(() => {
+                    fire.database().ref('rooms/' + this.state.activeHotel + "/" + key).set({
+                        name: roomName,
+                        description: roomDesc,
+                        facilities: roomFaci,
+                        price: roomPrice,
+                        image: this.state.currentImageRoom
+                    });
+                })
+        } else {
+            fire.database().ref('rooms/' + this.state.activeHotel + "/" + key).set({
+                name: roomName,
+                description: roomDesc,
+                facilities: roomFaci,
+                price: roomPrice,
+                image: roomImageCopy
+            });
         }
     }
     containerRooms() {
         let table = [];
-        if (this.state.hotelChange === true) {
+        if (this.state.hotelChange == true) {
            
             // var rooms = _.values(this.state.rooms)
             var rooms = this.state.rooms[this.state.activeHotel];
@@ -144,13 +256,13 @@ class GestHotel extends Component {
                     <div className="roomContainer">
                         <h6>Room number: {i} </h6>
                         <label>Name:</label>
-                        <input type="text" value={rooms[i].name} id={"roomname/" + i} /><br />
+                        <input type="text" placeholder={rooms[i].name} id={"roomname/" + i} /><br />
                         <label>Description:</label>
-                        <textarea type="text" value={rooms[i].description} id={"roomdesc/" + i} className="textareaEdit"></textarea><br />
+                        <textarea type="text" placeholder={rooms[i].description} id={"roomdesc/" + i} className="textareaEdit"></textarea><br />
                         <label>Facilities:</label>                        
-                        <input type="text" value={rooms[i].facilities} id={"roomfaci/" + i} /><br />
+                        <input type="text" placeholder={rooms[i].facilities} id={"roomfaci/" + i} /><br />
                         <label>Price:</label>                        
-                        <input type="text" value={rooms[i].price} id={"roomprice/" + i} /><br />
+                        <input type="text" placeholder={rooms[i].price} id={"roomprice/" + i} /><br />
                         <img src={rooms[i].image} />
                         <label > Select another image for room </label>
                         <input type="file" placeholder="Room Image.." id={"roomimage/" + i} /><br />
@@ -185,7 +297,7 @@ class GestHotel extends Component {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                {this.showBtn()}
+                                {this.showBtn(this.state.activeHotel)}
                             </div>
                         </div>
                     </div>
