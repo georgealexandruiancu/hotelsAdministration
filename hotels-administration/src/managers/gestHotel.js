@@ -103,8 +103,8 @@ class GestHotel extends Component {
         }
         // this.pushHotelData(hotel);
     }
-    pushHotelData() {
-        // this.preventDefault();
+    pushHotelData(e) {
+        //  e.preventDefault();
         if (this.state.hotelChange === true) {
             var convertedActiveHotel = _.snakeCase(this.state.activeHotel);
             var hotels = this.state.hotels;
@@ -140,11 +140,23 @@ class GestHotel extends Component {
             return(
                 <div>
                      <br/><button onClick={this.updateChanges.bind(this)} className="dispBlock">Update hotel</button>
+                     <br/><button onClick={this.deleteHotel.bind(this)} className="dispBlock">Delete this hotel</button>
                 </div>
-            )
-           
+            );
         }
-      
+    }
+    deleteHotel(e){
+        e.preventDefault();
+        alert("delete hotel" + this.state.activeHotel);
+        var ref = fire.database().ref('/hotels/' + this.state.activeHotel );
+        ref.on('value', (snapshot) => {
+            snapshot.ref.remove();
+        });
+        var refRooms = fire.database().ref('/rooms/'+this.state.activeHotel);
+        refRooms.on('value', (snapshot)=>{
+            snapshot.ref.remove();
+            Location.reload();
+        });
     }
     updateChanges(e){
         e.preventDefault();
