@@ -40,7 +40,7 @@ class AsideProfile extends Component {
         var table = [];
         if(this.state.clientOk === true){
             table.push(
-                <div>
+                <div key={"client"}>
                     <div className="inputProfileHolder">
                         <label>
                             Modify your name:
@@ -72,8 +72,8 @@ class AsideProfile extends Component {
             );
             return table;
         }else{
-            table.push(<center>
-                <div class="loader"></div>
+            table.push(<center key="lodasdasda">
+                <div className="loader"></div>
             </center>);
             return table;
         }
@@ -84,7 +84,7 @@ class AsideProfile extends Component {
                <div className="asidePannel">
                     <div className="profileName mt-100">
                         <center>
-                            <h6>Hello,  {this.state.activeClient}</h6>
+                            <h6>Hello, {this.state.activeClient}</h6>
                         </center>
                     </div>
                     <div className="profileInfo mt-100">

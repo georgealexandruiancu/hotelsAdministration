@@ -44,7 +44,11 @@
 .profileInfo{
     padding-left: 15px;
 }
-
+.pos-center{
+    position: absolute;
+    left: 40%;
+    transform: translateX(-70%);
+}
 .loader {
     border: 8px solid #dc3545; /* Light grey */
     border-top: 8px solid #3498db; /* Blue */
@@ -70,4 +74,167 @@
 .logo-holder{
     position: fixed;
     z-index: 100;
+}
+.page-holder-client{
+    padding-right: 280px;
+    padding-top: 75px;
+}
+.page-holder-client h5{
+    padding-left: 25px;
+}
+.page-holder-client .lineDiv{
+    width: 100px;
+    height: 5px;
+    background: #dc3545;
+    margin-left: 25px;
+}
+.holder-hotels div .col-md-4{
+    margin-top: 20px;
+}
+.card-hotel{
+    overflow: hidden;
+    border-radius: 25px;
+    min-height: 250px;
+    max-height: 250px;
+    width: 100%;
+    position: relative;
+}
+.card-hotel img{
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    height: 250px;
+    width: 100%;
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+.hotel-preview{
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+.hotel-preview .title{
+    position: absolute;
+    width: 150px;
+    top: 15px;
+    left: 20px;
+    color: white;
+    font-weight: 900;
+}
+.hotel-preview .lineDiv{
+    position: absolute;
+    top: 40px;
+}
+.hotel-preview .pos-abs{
+     position: absolute;
+     bottom: 15px;
+     right: 20px;
+     width: 100px;
+}
+.card-hotel:hover .card-hotel img{
+    opacity: 0.7;
+    filter: blur(5px);
+}
+.hotel-details .stars{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: black;
+    padding-left: 25px;
+}
+.hotel-details img{
+    padding-left: 25px;
+    width: 400px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+.hotel-details .description{
+    text-align: justify;
+    padding-left: 25px;
+    padding-bottom: 25px;
+}
+.hotel-details .contact{
+    /* text-align: justify; */
+    padding-left: 25px;
+    padding-bottom: 25px;
+}
+.hotel-details .location{
+    /* text-align: justify; */
+    padding-left: 25px;
+    padding-bottom: 25px;
+}
+.m-l-50{
+    margin-left: 50px;
+}
+
+.room-card{
+    width: 100%;
+    min-height: 350px;
+    max-height: 500px;
+    overflow: hidden;
+    border-radius: 25px;
+    position: relative;
+}
+.room-card img{
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    min-height: 350px;
+    width: 100%;
+    opacity: 0.7;
+}
+.room-card:after{
+    content: "";
+    position: absolute;
+    z-index: 0;
+    background: #202020;
+    opacity: .8;
+    width: 100%;
+    height: 100%;
+}
+.room-preview{
+    position: relative;
+    z-index: 100;
+}
+.room-preview .room-name{
+    position: absolute;
+    width: 100%;
+    top: 15px;
+    left: 20px;
+    color: white;
+    font-weight: 900;
+}
+.room-preview .room-facilities{
+    position: absolute;
+    width: 100%;
+    top: 75px;
+    left: 20px;
+    color: white;
+    font-weight: 900;
+}
+.room-preview .room-price{
+    position: absolute;
+    width: 100%;
+    top: 100px;
+    left: 20px;
+    color: white;
+    font-weight: 900;
+}
+.room-preview .lineDiv{
+    position: absolute;
+    top: 40px;
+}
+.room-preview .makeReserv{
+    position: absolute;
+    width: 100%;
+    top: 150px;
+    left: 20px;
+    color: white;
+    font-weight: 900;
+}
+.room-preview .pos-abs{
+     position: absolute;
+    bottom: 50px;
+    right: 50px;
+     width: 150px;
 }
