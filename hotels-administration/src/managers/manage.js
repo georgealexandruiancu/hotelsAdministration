@@ -26,14 +26,13 @@ class ManagerDashboard extends Component {
             if (user) {
                 This.setState({activeManager: user.email})
             } else {
-                alert("You must be logged in");
-                window.location = "/LogInManager";
+                window.location = "/Travelissiomo";
             }
         });
     }
     logout(){
         fire.auth().signOut();
-        window.location = "/LogInManager";
+        window.location = "/Travelissiomo";
     }
     createHotel(){
         window.location = "/CreateHotel";
@@ -63,6 +62,10 @@ class ManagerDashboard extends Component {
                         <li onClick={this.createHotel}>
                                 <i className="fas fa-plus-square iconsMenu"></i>
                                 <div className="textMenu">CREATE HOTELS</div>
+                        </li>
+                        <li onClick={this.logout}>
+                            <i className="fas fa-exit iconsMenu"></i>
+                            <div className="textMenu">LOG OUT</div>
                         </li>
                     </div>
                 </div>

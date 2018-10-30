@@ -1,0 +1,73 @@
+.logo-holder{
+    font-size: 2.3rem;
+    color: white;
+    font-weight: 900;
+    background: #dc3545;
+}
+.splashHolder{
+    background: url("./../splashHolder.jpeg");
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+    
+}
+.splashHolder:after{
+    content: "";
+    position: fixed;
+    background: #202020;
+    opacity: .8;
+    width: 100%;
+    height: 100%;
+}
+.page{
+    z-index: 1;
+    color: white !important;
+    font-weight: 900 !important;
+}
+.mt-50{
+    margin-top: 50px;
+}
+.asidePannel{
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 275px;
+    height: 100%;
+    background: #2A3F54;
+    color: white;
+}
+.mt-100{
+    margin-top: 100px;
+}
+.profileInfo{
+    padding-left: 15px;
+}
+
+.loader {
+    border: 8px solid #dc3545; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin-top: 55px;
+}
+.mt-25{
+    margin-top: 25px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.buttonsHolder{
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.logo-holder{
+    position: fixed;
+    z-index: 100;
+}

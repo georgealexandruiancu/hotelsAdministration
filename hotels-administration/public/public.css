@@ -1,6 +1,7 @@
 body, html{
     padding: 0;
     margin: 0;
+    overflow-x: hidden;
 }
 .fancyNav{
     width: 275px;
@@ -121,4 +122,73 @@ li .textMenu{
 }
 .dispBlock{
     display: block;
+}
+.logo-holder{
+    font-size: 2.3rem;
+    color: white;
+    font-weight: 900;
+    background: #dc3545;
+}
+.carousel{
+    height: 450px;
+    
+}
+.carouselHolder{
+    height: 450px;
+
+}
+.carousel-inner{
+    height: 450px;
+    width: 100%;
+}
+.carousel-item{
+    height: 450px;
+}
+.carousel-caption{
+    padding: 20px 20px 20px 20px;
+    background: #dc3545;
+    text-transform: capitalize;
+}
+.carousel-caption h5{
+    font-weight: 900 !important;
+}
+.container-fluid{
+    padding: 0;
+}
+.carousel-inner > .carousel-item > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  max-height: 800px;
+  min-width: 100%;
+  min-height: 450px;
+}
+.loader {
+    border: 16px solid #dc3545; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin-top: 55px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.pos-abs-right{
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+}
+.splashHolder{
+    background: url("./../src/splashHolder.jpeg");
+    background-size: cover;
+}
+.mt-50{
+    margin-top: 50px;
 }
