@@ -5,6 +5,8 @@ import './../managers/style.css';
 import fire from './../config/Fire'
 import Navigation from "./manage";
 import GetHistory  from './getHistory';
+import GetReservations from './getReservations';
+
 
 
 class ManagerDashboard extends Component {
@@ -55,6 +57,26 @@ class ManagerDashboard extends Component {
                                     <center>DATE - HOTEL - ACTION</center>
                                 </div>
                                 <GetHistory />
+                            </div>
+                            <div className="col-md-8">
+                                <center>
+                                    <h3>Last reservations</h3>
+                                </center>
+                                <table class="table">
+                                    <thead>
+                                        <th>No.</th>
+                                        <th>Hotel Name</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Room Type</th>
+                                        <th>Total Price</th>
+                                        <th>Persons</th>
+                                        <th>ACTIONS</th>
+                                    </thead>
+                                    <tbody>
+                                        <GetReservations />
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

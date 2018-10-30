@@ -23,10 +23,10 @@ class MainPage extends Component {
         window.location = '/Travelissimo/LogInClient';
     }
     signUpClient() {
-        window.location = '/Travelissimo/signUpClient';
+        window.location = '/Travelissimo/SignUpClient';
     }
     logInManager() {
-        window.location = '/LogInManger';
+        window.location = '/LogInManager';
     }
     getData(){
         fire.database().ref('/hotels').once("value", (snapshot)=>{

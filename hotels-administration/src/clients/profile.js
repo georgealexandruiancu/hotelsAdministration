@@ -14,6 +14,8 @@ class AsideProfile extends Component {
         this.checkConnection = this.checkConnection.bind(this);
         this.getClientData = this.getClientData.bind(this);
         this.toRes = this.toRes.bind(this);
+        this.logout = this.logout.bind(this);
+
 
     }
     componentWillMount(){
@@ -32,11 +34,16 @@ class AsideProfile extends Component {
     toRes(){
         window.location = "/Travelissimo/Client/Reservations";
     }
+    logout() {
+        fire.auth().signOut();
+        window.location = "/Travelissimo";
+    }
     getClientData(){
        
-            fire.database().ref('/clients').orderByChild('email').equalTo(this.state.activeClient).on('value', (snapshot) => {
+            fire.database().ref('/clients/').orderByChild('email').equalTo(this.state.activeClient).on('value', (snapshot) => {
                 let user = snapshot.val();
                 let key = Object.keys(user)[0];
+                console.log(key);
                 this.setState({ infoClient: user, key: key, clientOk: true })
             });
         
@@ -100,7 +107,7 @@ class AsideProfile extends Component {
                             <button className="btn btn-primary" onClick={this.toRes}>
                                 My reservations
                             </button><br /><br />
-                            <button className="btn btn-danger">
+                            <button className="btn btn-danger" onClick={this.logout}>
                                 Logout
                             </button>
                         </center>

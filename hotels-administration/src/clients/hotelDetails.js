@@ -137,6 +137,7 @@ class HotelDetails extends Component {
                 numberOfNights: numberOfNights
             });
             fire.database().ref('/hotels/'+hotel+'/reservations').push({
+                hotelName: hotel,
                 dateCheckIn: checkIn,
                 dateCheckOut: checkOut,
                 roomType: room,

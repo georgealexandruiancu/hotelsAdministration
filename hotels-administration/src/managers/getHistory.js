@@ -41,7 +41,7 @@ class GetHistory extends Component {
         let table = [];
         if(this.state.fetch === true){
             console.log(this.state)
-            for(let i=0;i<this.state.history.length;i++){
+            for (let i = this.state.history.length-1;i > 0; --i){
                 table.push(
                     <div class="alert alert-primary" role="alert">
                         {this.state.history[i].date} - {this.state.history[i].hotel} - {this.state.history[i].action}
