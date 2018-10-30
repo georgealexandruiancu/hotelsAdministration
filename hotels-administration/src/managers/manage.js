@@ -13,6 +13,7 @@ class ManagerDashboard extends Component {
         this.checkConnection = this.checkConnection.bind(this);
         this.createHotel = this.createHotel.bind(this);
         this.gestHotel = this.gestHotel.bind(this);
+        this.dashboard = this.dashboard.bind(this);
 
 
     }
@@ -40,6 +41,9 @@ class ManagerDashboard extends Component {
     gestHotel(){
         window.location = '/GestHotel';
     }
+    dashboard() {
+        window.location = '/ManagerDashboard';
+    }
     render() {
         return (
             <div>
@@ -48,7 +52,7 @@ class ManagerDashboard extends Component {
                         {this.state.activeManager}
                     </div>
                     <div className="commnadList">
-                        <li>
+                        <li onClick={this.dashboard}>
                                 <i className="fas fa-tachometer-alt iconsMenu"></i>
                                 <div className="textMenu">DASHBOARD</div>
                         </li>

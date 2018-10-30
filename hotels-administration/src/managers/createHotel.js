@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './../managers/style.css';
 import fire from './../config/Fire'
 import Navigation from "./manage";
+import {saveHistory} from './history';
 class CreateHotel extends Component {
     constructor(props) {
         super(props);
@@ -127,6 +128,8 @@ class CreateHotel extends Component {
                 for(var i=0;i<this.state.rooms;i++){
                     this.saveRoom(i);
                 }
+            }).then(() => {
+                saveHistory(this.state.activeManager, titleHotel, 'Hotel created');
             })
     }
     render() {

@@ -3,6 +3,7 @@ import './../managers/style.css';
 import fire from './../config/Fire';
 import _ from 'lodash';
 import Navigation from "./manage";
+import {saveHistory} from "./history";
 class GestHotel extends Component {
     constructor(props) {
         super(props);
@@ -135,7 +136,7 @@ class GestHotel extends Component {
     showBtn(value){
         if(this.state.hotelChange === true){
             var roomImageCopy = this.state.rooms[this.state.activeHotel];
-            console.log(roomImageCopy[1].image);
+            // console.log(roomImageCopy[1].image);
             console.log(this.state.activeHotel);
             return(
                 <div>
@@ -147,6 +148,7 @@ class GestHotel extends Component {
     }
     deleteHotel(e){
         e.preventDefault();
+        saveHistory(this.state.manager, this.state.activeHotel, "Hotel Deleted");
         alert("delete hotel" + this.state.activeHotel);
         var ref = fire.database().ref('/hotels/' + this.state.activeHotel );
         ref.on('value', (snapshot) => {
@@ -155,7 +157,7 @@ class GestHotel extends Component {
         var refRooms = fire.database().ref('/rooms/'+this.state.activeHotel);
         refRooms.on('value', (snapshot)=>{
             snapshot.ref.remove();
-            Location.reload();
+            window.location = "/ManagerDashboard";
         });
     }
     updateChanges(e){
@@ -199,7 +201,9 @@ class GestHotel extends Component {
                         for(let i=0;i<rooms.length;i++){
                             this.saveRooms(i);
                         }                        
-                    })
+                    }).then(() => {
+                        saveHistory(this.state.manager, this.state.activeHotel, "Updated mode");
+                    });
             }else{
                 fire.database().ref('hotels/' + titleHotel).set({
                     title: titleHotel,
@@ -209,6 +213,8 @@ class GestHotel extends Component {
                     contact: contactHotel,
                     manager: this.state.manager,
                     image: imageHotelCopy
+                }).then(() => {
+                    saveHistory(this.state.manager, this.state.activeHotel, "Updated mode");
                 });
                 let rooms = this.state.rooms[this.state.activeHotel];
                 for (let i = 0; i < rooms.length; i++) {
@@ -276,7 +282,7 @@ class GestHotel extends Component {
                         <label>Price:</label>                        
                         <input type="text" placeholder={rooms[i].price} id={"roomprice/" + i} /><br />
                         <img src={rooms[i].image} />
-                        <label > Select another image for room </label>
+                        <label> Select another image for room </label>
                         <input type="file" placeholder="Room Image.." id={"roomimage/" + i} /><br />
                         {/* <button onClick={this.saveRoom.bind(this, i)}>Save Room</button> */}
                     </div>

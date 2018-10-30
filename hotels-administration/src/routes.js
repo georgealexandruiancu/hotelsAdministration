@@ -3,7 +3,7 @@ import React from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 import LogInManager from './managers/logIn';
-import ManagerDashboard from "./managers/manage";
+import ManagerDashboard from "./managers/dashboard";
 import CreateHotel from "./managers/createHotel";
 import GestHotel from "./managers/gestHotel";
 
