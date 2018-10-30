@@ -13,6 +13,8 @@ class AsideProfile extends Component {
         }
         this.checkConnection = this.checkConnection.bind(this);
         this.getClientData = this.getClientData.bind(this);
+        this.toRes = this.toRes.bind(this);
+
     }
     componentWillMount(){
         this.checkConnection();
@@ -23,9 +25,12 @@ class AsideProfile extends Component {
             if (user) {
                 This.setState({ activeClient: user.email}, () => {This.getClientData()})
             } else {
-                window.location = "/Travelissiomo";
+                window.location = "/Travelissimo";
             }
         });
+    }
+    toRes(){
+        window.location = "/Travelissimo/Client/Reservations";
     }
     getClientData(){
        
@@ -92,7 +97,7 @@ class AsideProfile extends Component {
                     </div>
                     <div className="buttonsHolder mt-50">
                         <center>
-                            <button className="btn btn-primary">
+                            <button className="btn btn-primary" onClick={this.toRes}>
                                 My reservations
                             </button><br /><br />
                             <button className="btn btn-danger">

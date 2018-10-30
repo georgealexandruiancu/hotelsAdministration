@@ -29,10 +29,10 @@ class MainPage extends Component {
         window.location = '/LogInManger';
     }
     getData(){
-        // fire.database().ref('/hotels').once("value", (snapshot)=>{
-        //     let hotels = _.values(snapshot.val());
-        //     this.setState({hotels: hotels, fetched: true});
-        // })
+        fire.database().ref('/hotels').once("value", (snapshot)=>{
+            let hotels = _.values(snapshot.val());
+            this.setState({hotels: hotels, fetched: true});
+        })
     }
     showImgs(){
         var table = [];
@@ -101,7 +101,7 @@ class MainPage extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="container-fluid">
+                <div className="container-fluid mt-100">
                     <div className="row">
                         <div className="container">
                             <div className="row">

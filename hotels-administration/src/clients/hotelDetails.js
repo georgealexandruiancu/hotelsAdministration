@@ -94,7 +94,7 @@ class HotelDetails extends Component {
                                 <input type="date" id={"checkOut/" + i} name="trip" /><br></br>
                                 <label for="checkOut">Persons: </label>
                                 <input type="number" id={"persons/" + i} name="trip" /><br></br><br></br><br></br><br></br>
-                                <button className="btn btn-primary pos-abs" onClick={(e) => this.saveReservation(e, i, this.state.rooms[i].name, this.state.hotel.title)}>Save Reservation</button>
+                                <button className="btn btn-primary pos-abs" onClick={(e) => this.saveReservation(e, i, this.state.rooms[i].name, this.state.hotel.title, this.state.rooms[i].price)}>Save Reservation</button>
 
                             </div>
 
@@ -112,16 +112,44 @@ class HotelDetails extends Component {
             return table;
         }
     }
-    saveReservation(e,index, room, hotel){
+    saveReservation(e, index, room, hotel, price){
         e.preventDefault();
-
         var checkIn = document.getElementById("checkIn/" + index).value;
         var checkOut = document.getElementById("checkOut/" + index).value;
         var persons = document.getElementById("persons/" + index).value;
-     
-        // fire.database().ref('/clients')
+        var date1 = new Date(checkIn);
+        var date2 = new Date(checkOut);
         var user = fire.auth().currentUser;
-        alert(user.email);
+        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        var numberOfNights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var totalPrice = numberOfNights * price;
+        console.log(numberOfNights + " nights"); 
+        fire.database().ref('/clients/').orderByChild('email').equalTo(user.email).once('value', (snapshot)=>{
+            let key = Object.keys(snapshot.val())[0];
+            fire.database().ref("/clients/"+key+"/reservations").push({
+                hotelName: hotel,
+                dateCheckIn: checkIn,
+                dateCheckOut: checkOut,
+                roomType: room,
+                persons: persons,
+                totalPrice: totalPrice,
+                activeRes: false,
+                numberOfNights: numberOfNights
+            });
+            fire.database().ref('/hotels/'+hotel+'/reservations').push({
+                dateCheckIn: checkIn,
+                dateCheckOut: checkOut,
+                roomType: room,
+                persons: persons,
+                totalPrice: totalPrice,
+                activeRes: false,
+                clientEmail: user.email,
+                numberOfNights: numberOfNights
+            })
+        }).then(()=>{
+            alert("Reservation saved!");
+        });
+        
     }
     render() {
         return (
